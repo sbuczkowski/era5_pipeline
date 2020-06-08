@@ -1,0 +1,36 @@
+* cdsapirc
+Needed to authenticate with ECMWF CDS data servers to allow
+download. Must be a dot-file in my home directory. Key is specific to
+my CDS account but can be used without having access to my account.
+
+#+NAME: cdsapirc
+#+BEGIN_SRC sh :exports code :tangle ~/.cdsapirc
+url: https://cds.climate.copernicus.eu/api/v2
+key: 36959:01356348-540c-478d-a38f-9440bc79868a
+#+END_SRC
+
+* Download script
+CDS provides a python API for automating download of dataset
+collections. Unfortunately, it's documentation is non-existant.
+
+As of this writing, it appears that the variables we normally pull
+down in ERA-Interim and ECMWF can be found in the datasets
+reanalysis-era5-pressure-levels and reanalysis-era5-single-levels
+
+#+NAME: getera5
+#+BEGIN_SRC python :exports code :tangle ~/prgdir/src/python/getera5.py
+#!/usr/bin/env python
+
+import cdsapi
+
+cds = cdsapi.Client()
+
+cds.retrieve('reanalysis-era5-pressure-levels', {
+    "variable": "t/q/o3",
+    "pressure_level": "all",
+    "product_type": "reanalysis",
+    "date": "2017-12-01",
+    "time": "all",
+    "format": "netcdf"
+}, '/home/sbuczko1/Work/download_test.nc')
+#+END_SRC
