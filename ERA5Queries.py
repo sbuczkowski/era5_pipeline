@@ -1,3 +1,6 @@
+# REQUIRES Python 3.6 or higher
+# developed and tested with "module load Python/3.6.4-intel-2018a"
+
 ######
 # Build and execute query for model level parameter
 ######
@@ -14,13 +17,13 @@ def get_level_param(cds, requestDates, param, target, config):
     cds.retrieve('reanalysis-era5-complete', {
         'class': 'ea',
         'date': requestDates,
-        'grid': config['grid'],
+        'grid': config['DEFAULT']['grid'],
         'expver': '0001',    # 5 for dates within 3 months of present?
-        'levelist': config['levels'],
+        'levelist': config['DEFAULT']['levels'],
         'levtype': 'ml',
         'param': param,
         'stream': 'oper',
-        'time': config['times'],
+        'time': config['DEFAULT']['times'],
         'type': 'an',
         'format': 'netcdf'
     }, target )
@@ -48,12 +51,12 @@ def get_surf_params(cds, requestDates, target, config):
     cds.retrieve('reanalysis-era5-single-levels', {
         'class': 'ea',
         'date': requestDates,
-        'grid': config['grid'],
+        'grid': config['DEFAULT']['grid'],
         'expver': '0001',
         'levtype': 'sfc',
         'variable': vlist,
         'stream': 'oper',
-        'time': config['times'],
+        'time': config['DEFAULT']['times'],
         'product_type': 'reanalysis',
         'format': 'netcdf'
     }, target )
