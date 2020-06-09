@@ -34,3 +34,6 @@ cds.retrieve('reanalysis-era5-pressure-levels', {
     "format": "netcdf"
 }, '/home/sbuczko1/Work/download_test.nc')
 #+END_SRC
+
+* Notes
+- CDS downloads are a pain. 
