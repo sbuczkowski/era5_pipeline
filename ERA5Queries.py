@@ -61,3 +61,66 @@ def get_surf_params(cds, requestDates, target, config):
         'format': 'netcdf'
     }, target )
 
+#####
+# Build monthly average query for surface level params
+#####
+def get_surf_monthly_avg(cds, year, month, target, config):
+    vlist = ['sea_ice_cover',
+             'surface_pressure',
+             'total_cloud_cover',
+             '10m_u_component_of_wind',
+             '10m_v_component_of_wind',
+             'skin_temperature']
+
+    cds.retrieve('reanalysis-era5-single-levels-monthly-means',
+                 {
+                     'format': 'netcdf',
+                     'product_type': 'monthly_averaged_reanalysis_by_hour_of_day',
+                     'grid': config['DEFAULT']['grid'],
+                     'variable': vlist,
+                     'year': year,
+                     'month': month,
+                     #        'date': requestDates,
+                     'time': config['DEFAULT']['times'],
+                 },
+    target)
+#####
+# Build monthly average query for levels params
+#####
+def get_levels_monthly_avg(cds, year, month, target, config):
+    vlist = [ 
+        'fraction_of_cloud_cover', 
+        'ozone_mass_mixing_ratio', 
+        'specific_cloud_ice_water_content',
+        'specific_cloud_liquid_water_content', 
+        'specific_humidity', 
+        'temperature',
+    ]
+
+    cds.retrieve(
+        'reanalysis-era5-pressure-levels-monthly-means',
+        {
+            'format': 'netcdf',
+            'product_type': 'monthly_averaged_reanalysis_by_hour_of_day',
+            'grid': config['DEFAULT']['grid'],
+            'variable': vlist,
+            'pressure_level': [
+                '1', '2', '3',
+                '5', '7', '10',
+                '20', '30', '50',
+                '70', '100', '125',
+                '150', '175', '200',
+                '225', '250', '300',
+                '350', '400', '450',
+                '500', '550', '600',
+                '650', '700', '750',
+                '775', '800', '825',
+                '850', '875', '900',
+                '925', '950', '975',
+                '1000',
+            ],
+            'year': year,
+            'month': month,
+            'time': config['DEFAULT']['times'],
+        },
+    target)
