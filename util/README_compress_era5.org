@@ -1,0 +1,35 @@
+* compress_era5.sh
+  Canonical compression script. Runs compression on one day of ERA5
+  {sfc,lev} data.
+
+  compress_era5.sh -f 20120101 compresses files for 20120101
+  compress_era5.sh -f path_to_era5/20120101 compresses files run from
+  alternate directory
+
+* compress_era5_parallel
+  Comprised of three functions to run compress_era5.sh in a parallel
+  environment for largescale compression of, say, months or years of
+  era5 files
+
+** compress_era5_parallel.sbatch
+   sbatch setup file. Calls compress_era5_parallel.sh on each cpu requested.
+
+   runs as sbatch --array=i-j compress_era5_parallel.sbatch <driverfile>
+
+   where <driverfile> is a file containing lines with the era5
+   filebases to compress:
+
+   /asl/models/era5/2012/01/20120101
+   /asl/models/era5/2012/01/20120102
+
+   These can found with a command like: (example assumes running from
+   /asl/models/era5/2012)
+   find $PWD -name "*.nc" | cut -d_ -f1 | sort -n | uniq > <driverfile>
+
+   default driverfile is /asl/models/era5/ERA5_compression.driver
+
+   --array=i-j indices i/j run 0 to (wc -l <driverfile>)-1
+
+** compress_era5_parallel.sh
+   pulls line from driverfile appropriate for the array index being
+   run and feeds it to compress_era.sh

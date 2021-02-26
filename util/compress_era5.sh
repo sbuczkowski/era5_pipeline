@@ -19,11 +19,15 @@ do
     case "${flag}" in
 	v) verbose=1;;
 	f) ncfilebase=${OPTARG};;
-	*) echo "Usage: compress_era5 (-v) -f filebasepath"
+	*) echo -e "Usage: compress_era5 (-v) -f filebasepath\n"
 	    exit
 	    ;;
     esac
 done
+
+# make sure netcdf tools are loaded
+module try-load NCO/4.7.6-intel-2018a
+
 #ncfilebase=$1
 echo "NCFILEBASE = $ncfilebase"
 
@@ -47,7 +51,7 @@ for index in ${!fsuffix[*]}; do
     # even if they were just created above
     if [[ -f $tncfile ]]; then
 	test $verbose && echo ">>> $tncfile exists, moving to replace $ncfile: mv $tncfile $ncfile"
-#	mv $tncfile $ncfile
+	mv $tncfile $ncfile
     else
 	test $verbose &&echo ">>> $ncfile already compressed and replaced"
     fi

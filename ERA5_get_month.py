@@ -45,9 +45,13 @@ for i in range(ndays):
 StartDate = baseDateStr + "{day:02}".format(day=1) 
 EndDate = baseDateStr + "{day:02}".format(day=ndays) 
 target = os.path.join(scratch_dir, '%s-%s_sfc.nc' % (StartDate, EndDate))
-print(StartDate, EndDate, target)
+# check to see if target already exists (for restarting a failed month)
+if os.path.exists(target) is False:
+    print(StartDate, EndDate, target)
+    ERA5Queries.get_surf_params(cds, requestDates, target, config)
+else:
+    print("> File exists: " + target)
 
-ERA5Queries.get_surf_params(cds, requestDates, target, config)
 ######
 # End surface variable pull
 ######
@@ -73,8 +77,11 @@ for i in range(len(requestDates)):
         target = os.path.join(scratch_dir, \
                               requestDates[i].replace('/to/','-') + \
                               "_lev_{pval:03}".format(pval=int(plist[j])) + ".nc")
-        print(target)
-        ERA5Queries.get_level_param(cds, requestDates[i], plist[j], target, config)
+        if os.path.exists(target) is False:
+            print(target)
+            ERA5Queries.get_level_param(cds, requestDates[i], plist[j], target, config)
+        else:
+            print("> File Exists: " + target)
 
 ######
 # End levels variable pulls
