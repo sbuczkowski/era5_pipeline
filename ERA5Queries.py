@@ -70,7 +70,9 @@ def get_surf_monthly_avg(cds, year, month, target, config):
              'total_cloud_cover',
              '10m_u_component_of_wind',
              '10m_v_component_of_wind',
-             'skin_temperature']
+             'skin_temperature',
+	     '2m_temperature',
+ 	     '2m_dewpoint_temperature']
 
     cds.retrieve('reanalysis-era5-single-levels-monthly-means',
                  {
@@ -123,4 +125,23 @@ def get_levels_monthly_avg(cds, year, month, target, config):
             'month': month,
             'time': config['DEFAULT']['times'],
         },
+    target)
+#####
+# Build monthly average query for 2m params
+#####
+def get_2m_monthly_avg(cds, year, month, target, config):
+    vlist = ['2m_temperature',
+             '2m_dewpoint_temperature']
+
+    cds.retrieve('reanalysis-era5-single-levels-monthly-means',
+                 {
+                     'format': 'netcdf',
+                     'product_type': 'monthly_averaged_reanalysis_by_hour_of_day',
+                     'grid': config['DEFAULT']['grid'],
+                     'variable': vlist,
+                     'year': year,
+                     'month': month,
+                     #        'date': requestDates,
+                     'time': config['DEFAULT']['times'],
+                 },
     target)
