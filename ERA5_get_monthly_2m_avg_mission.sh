@@ -35,7 +35,7 @@ do
 
     # run ERA5_get_monthly_avg.py
     echo ">> Run download for $year/$month..."
-    ERA5_get_monthly_2m_avg.py ERA5.ini $year $month >> logfile 2>&1
+    ./ERA5_get_monthly_2m_avg.py ERA5.ini $year $month >> logfile 2>&1
 
 done < "$1"
 

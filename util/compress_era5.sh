@@ -26,7 +26,7 @@ do
 done
 
 # make sure netcdf tools are loaded
-module try-load NCO/4.7.6-intel-2018a
+module try-load NCO/4.9.7-foss-2020b
 
 #ncfilebase=$1
 echo "NCFILEBASE = $ncfilebase"
@@ -39,6 +39,10 @@ for index in ${!fsuffix[*]}; do
     fsize=${sfilesize[$index]}
     
     ncfile=${ncfilebase}_${ftype}.nc
+    if [[ ! -f $ncfile ]]; then
+	echo "**File $ncfile does not exist"
+	continue
+    fi
     tncfile=${ncfile}.compressed
     filesize=$(stat -c%s $ncfile)
     
@@ -49,12 +53,12 @@ for index in ${!fsuffix[*]}; do
 
     # Second if-then block to move compressed files into place
     # even if they were just created above
-    if [[ -f $tncfile ]]; then
-	test $verbose && echo ">>> $tncfile exists, moving to replace $ncfile: mv $tncfile $ncfile"
-	mv $tncfile $ncfile
-    else
-	test $verbose &&echo ">>> $ncfile already compressed and replaced"
-    fi
+#    if [[ -f $tncfile ]]; then
+#	test $verbose && echo ">>> $tncfile exists, moving to replace $ncfile: mv $tncfile $ncfile"
+#	mv $tncfile $ncfile
+#    else
+#	test $verbose &&echo ">>> $ncfile already compressed and replaced"
+#    fi
 
 done
 
