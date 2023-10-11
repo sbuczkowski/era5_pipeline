@@ -71,8 +71,16 @@ def get_surf_monthly_avg(cds, year, month, target, config):
              '10m_u_component_of_wind',
              '10m_v_component_of_wind',
              'skin_temperature',
-	     '2m_temperature',
- 	     '2m_dewpoint_temperature']
+             '2m_temperature',
+             '2m_dewpoint_temperature',
+             'mean_top_net_short_wave_radiation_flux_clear_sky',
+             'mean_top_net_long_wave_radiation_flux_clear_sky',
+             'mean_surface_net_short_wave_radiation_flux_clear_sky',
+             'mean_surface_net_long_wave_radiation_flux_clear_sky',
+             'mean_surface_net_short_wave_radiation_flux',
+             'mean_surface_net_long_wave_radiation_flux',
+             'mean_top_net_short_wave_radiation_flux',
+             'mean_top_net_long_wave_radiation_flux']
 
     cds.retrieve('reanalysis-era5-single-levels-monthly-means',
                  {
@@ -132,6 +140,31 @@ def get_levels_monthly_avg(cds, year, month, target, config):
 def get_2m_monthly_avg(cds, year, month, target, config):
     vlist = ['2m_temperature',
              '2m_dewpoint_temperature']
+
+    cds.retrieve('reanalysis-era5-single-levels-monthly-means',
+                 {
+                     'format': 'netcdf',
+                     'product_type': 'monthly_averaged_reanalysis_by_hour_of_day',
+                     'grid': config['DEFAULT']['grid'],
+                     'variable': vlist,
+                     'year': year,
+                     'month': month,
+                     #        'date': requestDates,
+                     'time': config['DEFAULT']['times'],
+                 },
+    target)
+#####
+# Build monthly average of OLR/ILR params
+#####
+def get_surf_rad_monthly_avg(cds, year, month, target, config):
+    vlist = ['mean_top_net_short_wave_radiation_flux_clear_sky',
+             'mean_top_net_long_wave_radiation_flux_clear_sky',
+             'mean_surface_net_short_wave_radiation_flux_clear_sky',
+             'mean_surface_net_long_wave_radiation_flux_clear_sky',
+             'mean_surface_net_short_wave_radiation_flux',
+             'mean_surface_net_long_wave_radiation_flux',
+             'mean_top_net_short_wave_radiation_flux',
+             'mean_top_net_long_wave_radiation_flux']
 
     cds.retrieve('reanalysis-era5-single-levels-monthly-means',
                  {

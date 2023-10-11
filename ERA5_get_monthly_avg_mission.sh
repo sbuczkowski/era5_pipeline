@@ -6,16 +6,20 @@
 driver_file_sorted=era5_monthly.driver
 driver_file=${driver_file_sorted}.shuffled
 
-# build driver file of year/months to download (already have 2018)
+# build driver file of year/months to download 
 echo "> Build driver file for download..."
 for month in {08..12}; do
     echo "2002 $month" >> $driver_file_sorted
 done
 
-for year in {2003..2017} {2019..2020}; do
+for year in {2003..2022}; do
     for month in {01..12}; do
 	echo "$year $month" >> $driver_file_sorted
     done
+done
+
+for month in {01..02}; do
+    echo "2023 $month" >> $driver_file_sorted
 done
 
 # shuffle driver file for interleaved download
