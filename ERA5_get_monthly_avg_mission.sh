@@ -4,7 +4,6 @@
 #cd /asl/models/era5_avg/INCOMING
 
 driver_file_sorted=era5_monthly.driver
-driver_file=${driver_file_sorted}.shuffled
 
 # build driver file of year/months to download 
 echo "> Build driver file for download..."
@@ -12,18 +11,19 @@ for month in {08..12}; do
     echo "2002 $month" >> $driver_file_sorted
 done
 
-for year in {2003..2022}; do
+for year in {2003..2021}; do
     for month in {01..12}; do
 	echo "$year $month" >> $driver_file_sorted
     done
 done
 
-for month in {01..02}; do
-    echo "2023 $month" >> $driver_file_sorted
-done
+#for month in {01..02}; do
+#    echo "2023 $month" >> $driver_file_sorted
+#done
 
 # shuffle driver file for interleaved download
-shuf --output=$driver_file $driver_file_sorted
+#shuf --output=$driver_file $driver_file_sorted
+driver_file=${driver_file_sorted}
 echo "> Download driver complete. Starting downloads."
 
 # read through driver file and download year/month combinations
