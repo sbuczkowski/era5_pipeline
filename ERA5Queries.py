@@ -72,15 +72,7 @@ def get_surf_monthly_avg(cds, year, month, target, config):
              '10m_v_component_of_wind',
              'skin_temperature',
              '2m_temperature',
-             '2m_dewpoint_temperature',
-             'mean_top_net_short_wave_radiation_flux_clear_sky',
-             'mean_top_net_long_wave_radiation_flux_clear_sky',
-             'mean_surface_net_short_wave_radiation_flux_clear_sky',
-             'mean_surface_net_long_wave_radiation_flux_clear_sky',
-             'mean_surface_net_short_wave_radiation_flux',
-             'mean_surface_net_long_wave_radiation_flux',
-             'mean_top_net_short_wave_radiation_flux',
-             'mean_top_net_long_wave_radiation_flux']
+             '2m_dewpoint_temperature']
 
     cds.retrieve('reanalysis-era5-single-levels-monthly-means',
                  {
