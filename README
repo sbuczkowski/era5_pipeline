@@ -69,6 +69,12 @@ CDS. Data comes back as netcdf (defined in the query) in the directory
 YYYY-MM_{lev,sfc}.nc. These files then need to be moved into the
 appropriate /asl/models/era5_monthly/YYYY directories
 
+*NOTE* CDS updated their system in the recent past. This appears to
+have altered variable dimension naming (time -> valid_time) and
+overall file size (more recent files are significantly smaller). These
+two known changes have not been investigated and it is unclear at this
+writing whether there are other changes as well.
+
 * Notes
   - CDS downloads are a pain. 
   - ERA5_monthly is the least painful
