@@ -35,14 +35,13 @@ month = int(sys.argv[3])
 baseDateStr = "%04d%02d" % (year, month)
 
 ######
-# rad variable pull
+# surface variable pull
 ######
-target = os.path.join(scratch_dir, '%04d-%02d_rad.nc' % (year, month))
+target = os.path.join(scratch_dir, '%04d-%02d_sfc.nc' % (year, month))
 print(baseDateStr, target)
 
-ERA5Queries.get_surf_rad_monthly_avg(cds, year, month, target, config)
+ERA5Queries.get_surf_monthly_avg(cds, year, month, target, config)
 ######
-# End rad variable pull
+# End surface variable pull
 ######
-
 

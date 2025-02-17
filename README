@@ -1,0 +1,77 @@
+* Copernicus and CDSAPI
+To access the ECMWF Copernicus data store and retrieve data, one must
+be registered with the Copernicus Climate Data Store (cds) and have a
+personal key (which one stores in ~/.csdapirc) and a valid install of
+the cdsapi. Details can be found at the following link:
+
+https://cds.climate.copernicus.eu/how-to-api
+
+
+* cdsapirc
+Needed to authenticate with ECMWF CDS data servers to allow
+download. This is a dot-file in my your home directory
+(~/.cdsapirc). Key is specific to a CDS account.
+
+
+~/.cdsapirc looks like the following:
+url: https://cds.climate.copernicus.eu/api
+key: 51538337-bd6a-45fc-bfb4-11d048e9da27
+
+Your CDSAPI key is found in your login profile on the CDS website. Go
+there, log in and then click on your name in the top right
+corner. THen click "Your profile". Scroll down to "API Token".
+
+
+* CDSAPI
+CDS provides a python API for automating download of dataset
+collections. Unfortunately, it's documentation is non-existant as of
+this writing.
+
+One must have the CDSAPI installed in their local environment where
+their python3 installation can see it. (see instructions at the link above)
+
+An example of a python script to grab a couple variables for one day is below:
+
+#!/usr/bin/env python
+
+import cdsapi
+
+cds = cdsapi.Client()
+
+cds.retrieve('reanalysis-era5-pressure-levels', {
+    "variable": "t/q/o3",
+    "pressure_level": "all",
+    "product_type": "reanalysis",
+    "date": "2017-12-01",
+    "time": "all",
+    "format": "netcdf"
+}, 'download_test.nc')
+
+* ERA5_monthly
+Queries are defined for ERA5 monthly data pulls in ERAQueries.py. If
+you want to add variables, they have to be put in those queries once
+you find the variable names in the CDS documentation.
+
+To use the current crop of queries, build a text driver file for the
+years and months you want to download. e.g. to download 2024 Aug and
+Sept:
+
+2024 08
+2024 09
+
+Then run the shell script ERA5_get_monthly_avg.sh like so:
+
+./ERA5_get_monthly_avg.sh era5.driver
+
+This scripts builds the required queries and submits them to the
+CDS. Data comes back as netcdf (defined in the query) in the directory
+/asl/models/era5_monthly/INCOMING as files named
+YYYY-MM_{lev,sfc}.nc. These files then need to be moved into the
+appropriate /asl/models/era5_monthly/YYYY directories
+
+* Notes
+  - CDS downloads are a pain. 
+  - ERA5_monthly is the least painful
+  - ERA5-interim is unwieldy, at best. It is slow and requires a LOT
+    of data packing games to optimizeretrieval and download
+    times. Those times are SLOW and the dataset is HUGE.
