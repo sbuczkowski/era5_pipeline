@@ -57,3 +57,14 @@ ERA5Queries.get_levels_monthly_avg(cds, year, month, target, config)
 # End levels variable pulls
 ######
 
+######
+# rad variable pull
+######
+target = os.path.join(scratch_dir, '%04d-%02d_rad.nc' % (year, month))
+print(baseDateStr, target)
+
+ERA5Queries.get_surf_rad_monthly_avg(cds, year, month, target, config)
+######
+# End rad variable pull
+######
+
